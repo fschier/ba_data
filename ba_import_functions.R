@@ -65,9 +65,10 @@ import_ba_data_indicator <- function(sid = 611, yearmonth = "Aktuell"){
 # final function:
 
 import_ba <- function(landkreise = 611, yearmonth = "Aktuell"){
-  output <- import_ba_data_indicator(sid = 357) 
+  output <- rbind(import_ba_data_indicator(sid = 357), "SID_Wert") 
   for(i in landkreise){
     datensatz <- import_ba_data(sid = i)
+    datensatz <- rbind(datensatz, i)
     output <- cbind(output, datensatz)
   }
   return(output)
