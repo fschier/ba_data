@@ -10,14 +10,10 @@
 
 import_ba_data <- function(sid = 611, yearmonth = "Aktuell"){
   datensatz <- rio::import(
-    file = paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/",
-                  yearmonth,
-                  "/iiia4/zdf-sdi/sdi-",
-                  sid, 
-                  "-0-",
-                  ifelse(yearmonth == "Aktuell", "", paste0(yearmonth, "-")),
-                  "xlsx.xlsx?__blob=publicationFile&v=1"),
-    format = "xlsx" ,
+    file = paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/201706/iiia4/zdf-sdi/sdi-",
+                  sid,
+                  "-0-201706-xls.xls?__blob=publicationFile&v=1"),
+    format = "xls" ,
     which = 5
   )
   Sys.sleep(2)

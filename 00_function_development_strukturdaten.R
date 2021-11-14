@@ -29,9 +29,8 @@ datensatz_clean <- datensatz %>%
   select(-ncol(datensatz)) %>%
   select(-2) %>%
   fill(1:2) %>%
-  slice(4, 3:40) %>%
-  janitor::row_to_names(1) %>%
-  slice(6:39)
+  slice(4, 8:56) %>%
+  janitor::row_to_names(1)
 
 
 # final function:
@@ -53,9 +52,8 @@ import_ba_strukturdaten <- function(sid = 611, yearmonth = "Aktuell"){
     select(-ncol(datensatz)) %>%
     select(-2) %>%
     fill(1:2) %>%
-    slice(4, 3:40) %>%
-    janitor::row_to_names(1) %>%
-    slice(6:39)
+    slice(4, 8:56) %>%
+    janitor::row_to_names(1)
   
   return(datensatz)
 }

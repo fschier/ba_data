@@ -6,37 +6,32 @@
 # library(janitor)
 # library(purrr)
 
-# Initial function to return data (without indikator) for the specified sid and yearmonth:
+# Initial function to return data (without Merkmale) for the specified sid and yearmonth:
 
-import_ba_data <- function(sid = 611, yearmonth = "Aktuell"){
+import_ba_strukturdaten <- function(sid = 611, yearmonth = "Aktuell"){
   datensatz <- rio::import(
-    file = paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/",
-                  yearmonth,
-                  "/iiia4/zdf-sdi/sdi-",
-                  sid, 
-                  "-0-",
-                  ifelse(yearmonth == "Aktuell", "", paste0(yearmonth, "-")),
-                  "xlsx.xlsx?__blob=publicationFile&v=1"),
-    format = "xlsx" ,
-    which = 5
+    file = paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/201706/iiia4/zdf-sdi/sdi-",
+                  sid,
+                  "-0-201706-xls.xls?__blob=publicationFile&v=1"),
+    format = "xls",
+    which = 4
   )
   Sys.sleep(2)
   datensatz <- datensatz %>%
     select(-ncol(datensatz)) %>%
-    select(-c(2:5)) %>%
+    select(-2) %>%
     fill(1:2) %>%
-    slice(4, 4:40) %>%
+    slice(4, 8:56) %>%
     janitor::row_to_names(1) %>%
-    slice(4:38) %>%
     select(-1)
   
   return(datensatz)
 }
 
+519
+# Function for setup using "Merkmale"
 
-# setup for final functions needs indicator column:
-
-import_ba_data_indicator <- function(sid = 611, yearmonth = "Aktuell"){
+import_ba_merkmal <- function(sid = 611, yearmonth = "Aktuell"){
   datensatz <- rio::import(
     file = paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/",
                   yearmonth,
@@ -46,16 +41,15 @@ import_ba_data_indicator <- function(sid = 611, yearmonth = "Aktuell"){
                   ifelse(yearmonth == "Aktuell", "", paste0(yearmonth, "-")),
                   "xlsx.xlsx?__blob=publicationFile&v=1"),
     format = "xlsx" ,
-    which = 5
+    which = 4
   )
   Sys.sleep(2)
   datensatz <- datensatz %>%
     select(-ncol(datensatz)) %>%
-    select(-c(2:5)) %>%
+    select(-2) %>%
     fill(1:2) %>%
-    slice(4, 4:40) %>%
+    slice(4, 8:56) %>%
     janitor::row_to_names(1) %>%
-    slice(4:38) %>%
     select(1)
   
   return(datensatz)
@@ -64,10 +58,10 @@ import_ba_data_indicator <- function(sid = 611, yearmonth = "Aktuell"){
 
 # final function:
 
-import_ba <- function(landkreise = 611, ts = "Aktuell"){
-  output <- rbind(import_ba_data_indicator(sid = 357), "SID_Wert") 
+import_ba2 <- function(landkreise = 611, ts = "Aktuell"){
+  output <- rbind(import_ba_merkmal(sid = 357), "SID_Wert")
   for(i in landkreise){
-    datensatz <- import_ba_data(sid = i, yearmonth = ts)
+    datensatz <- import_ba_strukturdaten(sid = i, yearmonth = ts)
     datensatz <- rbind(datensatz, i)
     output <- cbind(output, datensatz)
   }

@@ -20,14 +20,13 @@ import_ba_strukturdaten <- function(sid = 611, yearmonth = "Aktuell"){
     format = "xlsx" ,
     which = 4
   )
-  Sys.sleep(5)
+  Sys.sleep(2)
   datensatz <- datensatz %>%
     select(-ncol(datensatz)) %>%
     select(-2) %>%
     fill(1:2) %>%
-    slice(4, 3:40) %>%
+    slice(4, 8:56) %>%
     janitor::row_to_names(1) %>%
-    slice(6:39) %>%
     select(-1)
   
   return(datensatz)
@@ -48,14 +47,13 @@ import_ba_merkmal <- function(sid = 611, yearmonth = "Aktuell"){
     format = "xlsx" ,
     which = 4
   )
-  Sys.sleep(5)
+  Sys.sleep(2)
   datensatz <- datensatz %>%
     select(-ncol(datensatz)) %>%
     select(-2) %>%
     fill(1:2) %>%
-    slice(4, 3:40) %>%
+    slice(4, 8:56) %>%
     janitor::row_to_names(1) %>%
-    slice(6:39) %>%
     select(1)
   
   return(datensatz)
@@ -64,10 +62,10 @@ import_ba_merkmal <- function(sid = 611, yearmonth = "Aktuell"){
 
 # final function:
 
-import_ba2 <- function(landkreise = 611, yearmonth = "Aktuell"){
+import_ba2 <- function(landkreise = 611, ts = "Aktuell"){
   output <- rbind(import_ba_merkmal(sid = 357), "SID_Wert")
   for(i in landkreise){
-    datensatz <- import_ba_strukturdaten(sid = i)
+    datensatz <- import_ba_strukturdaten(sid = i, yearmonth = ts)
     datensatz <- rbind(datensatz, i)
     output <- cbind(output, datensatz)
   }

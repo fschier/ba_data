@@ -14,9 +14,7 @@ import_ba_data <- function(sid = 611, yearmonth = "Aktuell"){
                   yearmonth,
                   "/iiia4/zdf-sdi/sdi-",
                   sid, 
-                  "-0-",
-                  ifelse(yearmonth == "Aktuell", "", paste0(yearmonth, "-")),
-                  "xlsx.xlsx?__blob=publicationFile&v=1"),
+                  "-0-xlsx.xlsx?__blob=publicationFile&v=1"),
     format = "xlsx" ,
     which = 5
   )
@@ -42,9 +40,7 @@ import_ba_data_indicator <- function(sid = 611, yearmonth = "Aktuell"){
                   yearmonth,
                   "/iiia4/zdf-sdi/sdi-",
                   sid, 
-                  "-0-",
-                  ifelse(yearmonth == "Aktuell", "", paste0(yearmonth, "-")),
-                  "xlsx.xlsx?__blob=publicationFile&v=1"),
+                  "-0-xlsx.xlsx?__blob=publicationFile&v=1"),
     format = "xlsx" ,
     which = 5
   )
